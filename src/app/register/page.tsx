@@ -8,20 +8,20 @@ export default function Register() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-//   const isValidEmail = (email: string) => {
-//     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-//     return emailRegex.test(email);
-//   };
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
 
-    // if (!isValidEmail(email)) {
-    //   setError("Email is invalid");
-    //   return;
-    // }
+    if (!isValidEmail(email)) {
+      setError("Email is invalid");
+      return;
+    }
 
     if (!password || password.length < 6) {
       setError("Password is invalid");
