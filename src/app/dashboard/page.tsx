@@ -1,7 +1,16 @@
-import React from 'react'
+import React from "react";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+export default async function Dashboard() {
+  const session = await getServerSession();
 
-export default function Dashboard() {
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
-    <div>Dashboard</div>
-  )
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      Dashboard
+    </div>
+  );
 }

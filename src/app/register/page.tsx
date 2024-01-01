@@ -50,7 +50,7 @@ export default function Register() {
         </h1>
         <form onSubmit={handleSubmit}>
           <input
-            type="email"
+            type="text"
             className="w-full border border-gray-300 text-black rounded px-3 mb-4 focus:outline"
             placeholder="Email"
             required

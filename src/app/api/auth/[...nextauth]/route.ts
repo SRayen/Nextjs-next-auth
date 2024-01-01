@@ -7,12 +7,13 @@ import { User } from "@/models/User";
 import connect from "@/utils/db";
 
 export const authOptions: any = {
+  secret: process.env.NEXTAUTH_SECRET as string,
   providers: [
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
 
@@ -34,9 +35,12 @@ export const authOptions: any = {
         }
       },
     }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID ?? "",
-      clientSecret: process.env.GITHUB_SECRET ?? "",
-    }),
+    // GitHubProvider({
+    //   clientId: process.env.GITHUB_ID ?? "",
+    //   clientSecret: process.env.GITHUB_SECRET ?? "",
+    // }),
   ],
 };
+
+export const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
