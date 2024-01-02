@@ -35,12 +35,39 @@ export const authOptions: any = {
         }
       },
     }),
-    // GitHubProvider({
-    //   clientId: process.env.GITHUB_ID ?? "",
-    //   clientSecret: process.env.GITHUB_SECRET ?? "",
-    // }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+    // ...add more providers here
   ],
-};
 
+  callbacks: {
+    //Save User connected with (GitHub Provider) to DB:
+    async signIn({ user, account }: { user: AuthUser; account: Account }) {
+      if (account?.provider == "credentials") {
+        return true;
+      }
+      if (account?.provider == "github") {
+        await connect();
+        try {
+          const existingUser = await User.findOne({ email: user.email });
+          if (!existingUser) {
+            const newUser = new User({
+              email: user.email,
+            });
+
+            await newUser.save();
+            return true;
+          }
+          return true;
+        } catch (err) {
+          console.log("Error saving user", err);
+          return false;
+        }
+      }
+    },
+  },
+};
 export const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
